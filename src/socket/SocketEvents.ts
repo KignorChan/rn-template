@@ -1,0 +1,3 @@
+export default {
+  NOTIFICATION_EVENT: "NOTIFICATION_EVENT",
+};
