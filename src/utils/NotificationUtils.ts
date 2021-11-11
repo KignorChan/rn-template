@@ -1,5 +1,5 @@
+import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
-import * as Permissions from "expo-permissions";
 import iStorage from "./iStorage";
 
 const NOTIFICATION_STATUS = {
@@ -15,13 +15,25 @@ async function initNotification() {
       shouldSetBadge: true,
     }),
   });
-  Permissions.getAsync(Permissions.NOTIFICATIONS).then((result) => {
-    if (result.status == "granted") {
-      console.log("notificaition permission granted");
-    } else {
-      return Permissions.askAsync(Permissions.NOTIFICATIONS);
+  requestNotificationPermission();
+}
+
+async function requestNotificationPermission() {
+  if (Constants.isDevice) {
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== "granted") {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
     }
-  });
+    if (finalStatus !== "granted") {
+      console.log("Failed to get push token for push notification!");
+      return;
+    }
+  } else {
+    console.log("Must use physical device for Push Notifications");
+  }
 }
 
 async function schedulePushNotification(
@@ -76,4 +88,5 @@ export default {
   schedulePushNotification,
   isNotificationEnable,
   setEnableNotification,
+  requestNotificationPermission,
 };
