@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "rn-template",
+    "slug": "rn-template",
+    "version": "1.0.0",
+    "sdkVersion": "43.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "android": {
+      "package": "com.anycom.rntemplate"
+    },
+    "ios": {
+      "bundleIdentifier": "com.anycom.rntemplate"
+    }
+  }
+}
